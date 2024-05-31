@@ -8,43 +8,24 @@ type MenuItem = Required<MenuProps>['items'][number];
 
 const items: MenuItem[] = [
    {
-      label: 'Home',
-      key: 'mail',
-      icon: <MailOutlined />,
+    label: (
+         <span style={{ color: 'white' }}>
+            <Link to="/">Home</Link>
+         </span>
+      ),
+      key: 'home',
+      
+      
    },
-   // {
-   //    label: 'Navigation Two',
-   //    key: 'app',
-   //    icon: <AppstoreOutlined />,
-   //    disabled: true,
-   // },
-   // {
-   //    label: 'Navigation Three - Submenu',
-   //    key: 'SubMenu',
-   //    icon: <SettingOutlined />,
-   //    children: [
-   //       {
-   //          type: 'group',
-   //          label: 'Item 1',
-   //          children: [
-   //             { label: 'Option 1', key: 'setting:1' },
-   //             { label: 'Option 2', key: 'setting:2' },
-   //          ],
-   //       },
-   //       {
-   //          type: 'group',
-   //          label: 'Item 2',
-   //          children: [
-   //             { label: 'Option 3', key: 'setting:3' },
-   //             { label: 'Option 4', key: 'setting:4' },
-   //          ],
-   //       },
-   //    ],
-   // },
    {
      
-      key: "AllBooks",
-      label: <Link to="/allproducts">All Products</Link>
+      key: "AllProducts",
+      label: (
+         <span style={{ color: 'white' }}>
+            <Link to="/allproducts">All Products</Link>
+         </span>
+      ),
+      // label: <Link to="/allproducts">All Products</Link>
 
    
    },
@@ -58,7 +39,7 @@ const Navbar: React.FC = () => {
       setCurrent(e.key);
    };
 
-   return <Menu onClick={onClick} selectedKeys={[current]} mode="horizontal" items={items} />;
+   return <Menu  className="mt-0 fixed w-full z-10 p-4 bg-black text-white"onClick={onClick} selectedKeys={[current]} mode="horizontal" items={items}  />;
 };
 
 export default Navbar;
