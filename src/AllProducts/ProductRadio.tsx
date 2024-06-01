@@ -1,21 +1,28 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import type { RadioChangeEvent } from 'antd';
 import { Radio } from 'antd';
+import { useCategoryContext } from '../Context/CategoryContext';
 
 const ProductRadio: React.FC = () => {
-  const [value, setValue] = useState(1);
+  const { category, setCategory, categories } = useCategoryContext();
+  const [value, setValue] = useState(category);
+
+  useEffect(() => {
+    setValue(category);
+  }, [category]);
 
   const onChange = (e: RadioChangeEvent) => {
     console.log('radio checked', e.target.value);
     setValue(e.target.value);
+    setCategory(e.target.value);
   };
 
   return (
     <Radio.Group onChange={onChange} value={value}>
-      <Radio value={1}>A</Radio>
-      <Radio value={2}>B</Radio>
-      <Radio value={3}>C</Radio>
-      <Radio value={4}>D</Radio>
+      <Radio value="default">Default</Radio>
+      {categories.map((cat) => (
+        <Radio key={cat} value={cat}>{cat}</Radio>
+      ))}
     </Radio.Group>
   );
 };

@@ -13,6 +13,7 @@ import {
   QueryClientProvider,
   useQuery,
 } from '@tanstack/react-query'
+import { CategoryProvider } from "./Context/CategoryContext";
 
 const queryClient = new QueryClient()
 const router = createBrowserRouter([
@@ -20,13 +21,13 @@ const router = createBrowserRouter([
     path: "/",
     element: <App></App>,
     children: [
-     
+
       {
-        path: "/allproducts", 
-        element:<AllProducts></AllProducts>
+        path: "/allproducts",
+        element: <AllProducts></AllProducts>
       },
 
-      
+
     ]
 
   },
@@ -34,8 +35,11 @@ const router = createBrowserRouter([
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
-    <QueryClientProvider client={queryClient}>
-      <RouterProvider router={router} />
-    </QueryClientProvider>
+    
+    <CategoryProvider>
+      <QueryClientProvider client={queryClient}>
+        <RouterProvider router={router} />
+      </QueryClientProvider>
+    </CategoryProvider>
   </React.StrictMode>
 );
