@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import type { RadioChangeEvent } from 'antd';
 import { Radio } from 'antd';
 import { useCategoryContext } from '../Context/CategoryContext';
+import ProductCategoryState from '../StateManagement/ProductCategoryState';
 
 const ProductRadio: React.FC = () => {
   const { category, setCategory, categories } = useCategoryContext();
@@ -13,6 +14,8 @@ const ProductRadio: React.FC = () => {
 
   const onChange = (e: RadioChangeEvent) => {
     console.log('radio checked', e.target.value);
+   
+     ProductCategoryState.getState().clickAfterCategory(e.target.value);
     setValue(e.target.value);
     setCategory(e.target.value);
   };
@@ -28,3 +31,4 @@ const ProductRadio: React.FC = () => {
 };
 
 export default ProductRadio;
+

@@ -6,6 +6,9 @@ import Cart from "./Card";
 
 import ProductRadio from "./ProductRadio";
 import {useCategoryContext} from "../Context/CategoryContext";
+import { useStore } from "zustand";
+import ProductCategoryState from "../StateManagement/ProductCategoryState";
+
 
 interface Rating {
   rate: number;
@@ -23,14 +26,29 @@ interface Product {
 }
 
 
-const fetchProducts = async (): Promise<Product[]> => {
+const fetchProducts = async (category: string): Promise<Product[]> => {
+  const baseUrl = "https://fakestoreapi.com/products"
+  const categoryUrl = `https://fakestoreapi.com/products/category/${category}`
+  let response = await axios.get(baseUrl);
+  if (category === "default")
+    response = await axios.get(baseUrl);
+  else {
+    if (category && category !=="default") {
+       response = await axios.get(categoryUrl)
+    }
+   
+  }
+  //  const category = ProductCategoryState(state => state.category);
+  // const category = useStore(state => state.category);
 
-  const response = await axios.get("https://fakestoreapi.com/products");
+
+  // const response = await axios.get("https://fakestoreapi.com/products");
   console.log(response.data);
   return response.data;
 };
 
 const AllProducts: React.FC = () => {
+   const category = ProductCategoryState(state => state.category);
  
   
   const {
@@ -38,8 +56,9 @@ const AllProducts: React.FC = () => {
     error,
     isLoading,
   } = useQuery({
-    queryKey: ["products"],
-    queryFn: fetchProducts,
+    queryKey: ["products",category],
+    queryFn: () => fetchProducts(category),
+   
   });
   if (isLoading) {
     return <Loading></Loading>;
@@ -53,6 +72,7 @@ const AllProducts: React.FC = () => {
 
 const AllProductsContent: React.FC<{ products: Product[] }> = ({ products }) => {
   const { setCategories } = useCategoryContext();
+  
 
   useEffect(() => {
     // Extract unique categories from products and set them in context
